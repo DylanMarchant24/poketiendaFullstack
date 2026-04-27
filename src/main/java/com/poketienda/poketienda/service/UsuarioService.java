@@ -36,7 +36,7 @@ public class UsuarioService {
 
     // Actualizar usuario existente
     public Usuario updateUsuario(Usuario usuario) {
-        Usuario usuarioExistente = usuarioRepository.findById(usuario.getId()).orElseThrow();
+        Usuario usuarioExistente = usuarioRepository.findById(usuario.getId()).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + usuario.getId()));
 
         usuarioExistente.setUsername(usuario.getUsername());
         usuarioExistente.setEmail(usuario.getEmail());
@@ -48,7 +48,7 @@ public class UsuarioService {
 
     // Eliminación lógica (desactivar usuario)
     public String desactivarUsuario(int id) {
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow();
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
         
         usuario.setActivo(false);
         usuarioRepository.save(usuario);
